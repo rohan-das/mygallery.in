@@ -2,6 +2,7 @@ package views
 
 import (
 	"html/template"
+	"net/http"
 	"path/filepath"
 )
 
@@ -10,12 +11,9 @@ var (
 	templateExt string = ".gohtml"
 )
 
-// NewView returns the View type that contains template type
+// NewView returns the View type that contains template type.
 func NewView(layout string, files ...string) *View {
-	files = append(files,
-		"views/layouts/footer.gohtml",
-		"views/layouts/navbar.gohtml",
-		"views/layouts/bootstrap.gohtml")
+	files = append(files, layoutFiles()...)
 	t, err := template.ParseFiles(files...)
 	if err != nil {
 		panic(err)
@@ -27,14 +25,19 @@ func NewView(layout string, files ...string) *View {
 	}
 }
 
-// View contains template type
+// View contains template type.
 type View struct {
 	Template *template.Template
 	Layout   string
 }
 
+// Render is used to render the view with the predefined layout.
+func (v *View) Render(w http.ResponseWriter, data interface{}) error {
+	return v.Template.ExecuteTemplate(w, v.Layout, nil)
+}
+
 // layoutFiles returns a slice of strings representing
-// the layout files used in our application
+// the layout files used in our application.
 func layoutFiles() []string {
 	files, err := filepath.Glob(layoutDir + "*" + templateExt)
 	if err != nil {
