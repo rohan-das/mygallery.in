@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"mygallery.in/views"
@@ -17,12 +16,13 @@ func NewUsers() *Users {
 	}
 }
 
+// Users Controller
 type Users struct {
 	NewView *views.View
 }
 
+// New method - Used as handler.
 func (u *Users) New(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Using Controller")
 	if err := u.NewView.Render(w, nil); err != nil {
 		panic(err)
 	}
