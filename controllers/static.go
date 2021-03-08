@@ -3,13 +3,13 @@ package controllers
 import "mygallery.in/views"
 
 type Static struct {
-	HomeView    *views.View
-	ContactView *views.View
+	Home    *views.View
+	Contact *views.View
 }
 
 func NewStatic() *Static {
 	return &Static{
-		HomeView:    views.NewView("bootstrap", "views/static/home.gohtml"),
-		ContactView: views.NewView("bootstrap", "views/static/contact.gohtml"),
+		Home:    views.NewView("bootstrap", "static/home"),
+		Contact: views.NewView("bootstrap", "static/contact"),
 	}
 }
